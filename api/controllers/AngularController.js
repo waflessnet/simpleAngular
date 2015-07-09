@@ -7,7 +7,7 @@
 
 module.exports = {
 	 index: function(req,res){
-	 	return res.view('angular/index',{layout:null});
+	 	return res.view();
 	 }
 };
 

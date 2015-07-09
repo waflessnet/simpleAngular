@@ -1,37 +1,13 @@
-<!DOCTYPE html>
-<html ng-app="miapp">
-<head>
-	<title>Angular APP</title>
-<style type="text/css">
-	.negativo {
-  color: red;
-}
-.positivo {
-  color: #33f;
-}
-.titularpeq{
-  font-size: 10pt;
-}
-.titulargran{
-  font-size: 18pt;
-}
-.uno{
-  background-color: #666;
-}
-.dos{
-  color: #fff;
-}
-.tres{
-  font-size: 30px;
-}
-	</style>
-</head>
 
-<body>
+
+<div class="row">
+<div class="col-md-4">
 <h1>Hola {{nombre}}</h1>
 <form>
 	Nombre: <input type="text" ng-model="nombre">
 </form>
+</div>
+<div class="col-md-4">
 <hr>
 Model  + ngClick
 <div ng-init="pensamientos =[];">
@@ -49,6 +25,8 @@ Model  + ngClick
  	<option value="dos">2</option>
  </select>
 <hr>
+</div>
+<div class="col-md-4">
 <h1>Controller </h1>
  <div ng-controller="miappCtrl as vm">
  	coloca algo : {{vm.algo}}
@@ -64,6 +42,8 @@ Model  + ngClick
  		</p>
  </div>
  <hr>
+</div>
+<div class="col-md-4">
  <h1>ng-class<h1>
  <div ng-controller="miappCtrlClass as vm">
  <h1 ng-class="vm.tamTitular">Acumulado<h1>
@@ -78,21 +58,30 @@ Model  + ngClick
   <input type="button" value="+" ng-click="vm.sumar(vm.valor)">
   <input type="button" value="-" ng-click="vm.restar(vm.valor)">
  </div>
-
+</div>
+<div class="col-md-4">
+<div ng-controller="AlertCtrl as vm" >
+  <input type="text"  ng-model="vm.mensaje">
+      <alert ng-repeat="alert in vm.alerts" type="{{alert.type}}" close="vm.closeAlert($index)">{{alert.msg}}</alert>
+    <button class='btn btn-default' ng-click="vm.addAlert(vm.mensaje)">Add Alert</button>
+</div>
 
  <div ng-controller="miappCtrlApi as vm">
   <input type="button" value="llamar" ng-click="vm.llamarAPI();">
  </div>
+</div>
+</div>
 
-
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
-<script type="text/javascript">
-	angular.module('miapp',[])
-	.controller('miappCtrl',mostrarAlgo)
+<!--script type="text/javascript" src="/js/dependencies/ui-bootstrap-tpls-0.13.0.min.js"></script-->
+<script type="text/javascript"> 
+	angular.module('miapp',['ui.bootstrap'])
+	.controller('miappCtrl',mostrarAlgo) 
 	.controller('miappCtrlOp',operaciones)
 	.controller('miappCtrlClass',clases)
+  .controller('AlertCtrl',mensajeAlert)
 	//.controller('miappCtrlApi',['$http',apiAjax]); //injectar
 	.controller('miappCtrlApi',apiAjax);
+  //angular.module('myModule', ['ui.bootstrap']);
 
     function mostrarAlgo(){
     	var scope = this;
@@ -101,11 +90,11 @@ Model  + ngClick
     function operaciones($scope){
     	var scope = this;
     	scope.valor=0;
-    	$scope.sumar = function(v){
+    	scope.sumar = function(v){
     		scope.valor+=parseInt(v);
     		//console.log(v);
     	}
-    	$scope.restar= function(v){
+    	scope.restar= function(v){
     		scope.valor-=parseInt(v);
     	}
     }
@@ -121,8 +110,25 @@ Model  + ngClick
     	}
 
     }
+    function mensajeAlert($scope,$http){
+      var scope= this;
+      scope.mensaje="nulo";
+      scope.alerts=[
+       { type:'danger',msg:'peligroso'},
+       { type:'success',msg:'positivo'}
+      ];
+      scope.closeAlert= function(index){
+        scope.alerts.splice(index,1);
+      }
+      scope.addAlert=function(msg){
+        scope.alerts.push({type:'info',msg:msg});
+      }
+    }
+
+
     function apiAjax($scope,$http){
     	var scope =this;
+
     	scope.llamarAPI = function(){
     		console.log("asas");
     	var url = 'http://api.randomuser.me/';
@@ -135,6 +141,3 @@ Model  + ngClick
     }
 
 </script>
-
-</body>
-</html>

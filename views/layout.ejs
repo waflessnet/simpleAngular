@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="miapp">
   <head>
+
     <title>New Sails App</title>
 
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script> 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -29,10 +32,12 @@
     -->
 
     <!--STYLES-->
-    <!--STYLES END-->
+    <link rel="stylesheet" href="styles/importer.css">
+    <!--STYLES END--> 
   </head>
 
   <body>
+    <div class="container">
     <%- body %>
 
 
@@ -59,8 +64,9 @@
     -->
 
     <!--TEMPLATES-->
+    
     <!--TEMPLATES END-->
-
+ 
 
     <!--
 
@@ -72,7 +78,7 @@
       take advantage of Sails' conventional asset pipeline (boilerplate Gruntfile).
 
       By default, files in your `assets/js` folder are included here
-      automatically (between SCRIPTS and SCRIPTS END).  Both JavaScript (.js) and
+      automatically (between SCRIPTS and SCRIPT S END).  Both JavaScript (.js) and
       CoffeeScript (.coffee) are supported. In production, your scripts will be minified
       and concatenated into a single file.
       
@@ -86,6 +92,10 @@
     -->
 
     <!--SCRIPTS-->
+    <script src="js/dependencies/sails.io.js"></script> 
+    <script src="js/dependencies/ui-bootstrap-tpls-0.13.0.min.js"></script>
     <!--SCRIPTS END-->
+  </div>
   </body>
+
 </html>
