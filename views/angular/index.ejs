@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html ng-app="miapp">
+<head>
+	<title>Angular APP</title>
+<style type="text/css">
+	.negativo {
+  color: red;
+}
+.positivo {
+  color: #33f;
+}
+.titularpeq{
+  font-size: 10pt;
+}
+.titulargran{
+  font-size: 18pt;
+}
+.uno{
+  background-color: #666;
+}
+.dos{
+  color: #fff;
+}
+.tres{
+  font-size: 30px;
+}
+	</style>
+</head>
+
+<body>
+<h1>Hola {{nombre}}</h1>
+<form>
+	Nombre: <input type="text" ng-model="nombre">
+</form>
+<hr>
+Model  + ngClick
+<div ng-init="pensamientos =[];">
+  Agrega un pensamiento : 
+  <input type="text" ng-model="nuevoPensamiento">
+  <input type="button" value="Agregar" ng-click="pensamientos.push(nuevoPensamiento);nuevoPensamiento='';">
+  <input type="button" value="Agregar" ng-click="campoSelect='1';">
+</div>
+<h2>Pensamientos que has tenido</h2>
+ <p ng-repeat="p in pensamientos" ng-init="paso=$index;">
+{{ paso }}.- {{p}}  {{campoSelect}}<br>
+ <p>
+ <select ng-model="campoSelect">
+ 	<option value="uno">1</option>
+ 	<option value="dos">2</option>
+ </select>
+<hr>
+<h1>Controller </h1>
+ <div ng-controller="miappCtrl as vm">
+ 	coloca algo : {{vm.algo}}
+ </div>
+ <hr>
+ <h1>sumar</h1>
+ <div ng-controller="miappCtrlOp as vm">
+ 		<input type="text" ng-model="nuevo">
+ 		<input type="button" value="+" ng-click="vm.sumar(nuevo);">
+ 		<input type="button" value="-" ng-click="vm.restar(nuevo);">
+ 		<p>
+ 		 el Valor : {{vm.valor}}
+ 		</p>
+ </div>
+ <hr>
+ <h1>ng-class<h1>
+ <div ng-controller="miappCtrlClass as vm">
+ <h1 ng-class="vm.tamTitular">Acumulado<h1>
+ <select ng-model="vm.tamTitular">
+ 	<option value="titularpeq">1</option>
+ 	<option value="titulargran">2</option>
+ </select>  
+  <p ng-class="{positivo : vm.total > 10 , negativo :vm.total < 3}">
+    estado {{vm.total}}
+  </p>
+  <input type="text"  ng-model="vm.valor">
+  <input type="button" value="+" ng-click="vm.sumar(vm.valor)">
+  <input type="button" value="-" ng-click="vm.restar(vm.valor)">
+ </div>
+
+
+ <div ng-controller="miappCtrlApi as vm">
+  <input type="button" value="llamar" ng-click="vm.llamarAPI();">
+ </div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+<script type="text/javascript">
+	angular.module('miapp',[])
+	.controller('miappCtrl',mostrarAlgo)
+	.controller('miappCtrlOp',operaciones)
+	.controller('miappCtrlClass',clases)
+	//.controller('miappCtrlApi',['$http',apiAjax]); //injectar
+	.controller('miappCtrlApi',apiAjax);
+
+    function mostrarAlgo(){
+    	var scope = this;
+    	scope.algo = "Hola Angular, usando controller más simple";
+    }
+    function operaciones($scope){
+    	var scope = this;
+    	scope.valor=0;
+    	$scope.sumar = function(v){
+    		scope.valor+=parseInt(v);
+    		//console.log(v);
+    	}
+    	$scope.restar= function(v){
+    		scope.valor-=parseInt(v);
+    	}
+    }
+    function clases(){
+    	var scope = this;
+    	scope.total=0;
+    	scope.sumar = function(v){
+    		scope.total+=parseInt(v);
+    		//console.log(v);
+    	}
+    	scope.restar= function(v){
+    		scope.total-=parseInt(v);
+    	}
+
+    }
+    function apiAjax($scope,$http){
+    	var scope =this;
+    	scope.llamarAPI = function(){
+    		console.log("asas");
+    	var url = 'http://api.randomuser.me/';
+    	$http.get(url).success(function(respuesta){
+            console.log(respuesta);
+            //vm.cervezas = respuesta.beers;
+        });
+    	}
+    	
+    }
+
+</script>
+
+</body>
+</html>
